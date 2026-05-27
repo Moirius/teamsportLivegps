@@ -359,8 +359,15 @@
               ? data.remaining
               : getRemainingKm(gpxRef.current, data.lat, data.lon);
             setRemainingKm(rem);
-            // Écrit le km restant pour la page vMix (index.html?vmix)
-            if (rem != null) localStorage.setItem('gpxrace_km', rem.toFixed(1));
+            // Écrit le km restant pour la page vMix locale et l'endpoint vMix Data Source
+            if (rem != null) {
+              localStorage.setItem('gpxrace_km', rem.toFixed(1));
+              fetch('/api/km', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ km: rem.toFixed(1) })
+              }).catch(() => {}); // échec silencieux si pas de réseau
+            }
           }
         });
         conn.on("close", () => { setConnected(false); setStatus("Moto déconnectée — en attente de reconnexion…"); });
