@@ -173,13 +173,12 @@
     saveIdx(idx){ try { localStorage.setItem('gpx_i',  String(idx)); } catch {} }
   };
 
-  // ── Relais JSON → vMix Data Source ──────────────────────────────────────
-  // POSTe les données de course vers relay.js (localhost:8765).
-  // vMix interroge GET http://localhost:8765/ et reçoit le JSON en retour.
-  const RELAY_URL = 'http://localhost:8765/';
-  function postRelay(km, totalKm) {
+  // ── POST → Netlify Function /api/data (vMix Data Source) ─────────────────
+  // Le browser régie envoie les données à /api/data (même domaine).
+  // vMix interroge GET https://[site].netlify.app/api/data → JSON pur.
+  function postData(km, totalKm) {
     const done = totalKm - km;
-    fetch(RELAY_URL, {
+    fetch('/api/data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -473,7 +472,7 @@
           setProgressIdx(res.idx);
           progressIdxRef.current = res.idx;
           LS.saveKm(res.km);
-          postRelay(res.km, totalKmRef.current);
+          postData(res.km, totalKmRef.current);
         });
         conn.on('close', () => { setConnected(false); setStatus('Moto déconnectée — en attente…'); });
         conn.on('error', err => setStatus(`Erreur conn : ${err}`));
@@ -527,17 +526,17 @@
           {gpxTrack && <div style={{marginTop:12}}><TrackMap track={gpxTrack} compact/></div>}
         </div>
 
-        {/* vMix JSON relay info */}
+        {/* vMix JSON Data Source */}
         <div className="card">
           <p className="card-label">vMix — Data Source JSON</p>
           <p style={{fontSize:12,color:'#475569',marginBottom:10,lineHeight:1.5}}>
-            Lance <code style={{color:'#06b6d4',background:'#060b14',padding:'1px 5px',borderRadius:4}}>node relay.js</code> sur la machine régie, puis dans vMix ajoute une Data Source de type <strong>Web URL</strong> :
+            Dans vMix, ajoute une Data Source de type <strong>Web URL</strong> :
           </p>
-          <p style={{fontFamily:"'JetBrains Mono',monospace",fontSize:13,color:'#06b6d4',background:'#060b14',padding:'8px 12px',borderRadius:8,letterSpacing:'0.05em'}}>
-            http://localhost:8765/
+          <p style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:'#06b6d4',background:'#060b14',padding:'8px 12px',borderRadius:8,letterSpacing:'0.04em',wordBreak:'break-all'}}>
+            {location.origin}/api/data
           </p>
           <p style={{fontSize:11,color:'#334155',marginTop:10,lineHeight:1.6}}>
-            Champs disponibles : <span style={{color:'#f59e0b'}}>km_restants</span> · done_km · total_km · pct
+            Champs : <span style={{color:'#f59e0b'}}>km_restants</span> · done_km · total_km · pct
           </p>
         </div>
 
@@ -613,7 +612,7 @@
             <p className="gps-acc-display" style={{marginTop:8}}>GPS ±{accuracy.toFixed(0)} m</p>
           )}
           <p style={{fontSize:11,color:'#0e4d63',fontFamily:"'JetBrains Mono',monospace",marginTop:4,letterSpacing:'0.08em'}}>
-            Data Source → localhost:8765
+            → /api/data
           </p>
         </div>
       </div>
