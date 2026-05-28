@@ -295,10 +295,16 @@
           const track = gpxRef.current;
           let remaining = null;
           if (track?.length) {
-            // Recherche dans une fenêtre glissante : jamais en arrière sur la trace
+            // Fenêtre glissante calculée en distance (km) pour éviter de sauter
+            // sur un autre tour quand le circuit repasse au même endroit.
+            // 4 km en avant = largement suffisant pour compenser un décrochage GPS
+            // tout en restant en dessous de la longueur d'un tour de circuit.
+            const metersPerPoint = (track[track.length-1].cum * 1000) / Math.max(1, track.length - 1);
+            const lookahead = Math.max(30,  Math.round(4000 / metersPerPoint)); // ~4 km
+            const lookback  = Math.max(3,   Math.round(150  / metersPerPoint)); // ~150 m
             const lastIdx = trackIdxRef.current;
-            const searchStart = lastIdx !== null ? Math.max(0, lastIdx - 50)                : 0;
-            const searchEnd   = lastIdx !== null ? Math.min(track.length - 1, lastIdx + 300) : track.length - 1;
+            const searchStart = lastIdx !== null ? Math.max(0, lastIdx - lookback)                    : 0;
+            const searchEnd   = lastIdx !== null ? Math.min(track.length - 1, lastIdx + lookahead)    : track.length - 1;
             let minD = Infinity, idx = lastIdx ?? 0;
             for (let i = searchStart; i <= searchEnd; i++) {
               const d = haversine(lat, lon, track[i].lat, track[i].lon);
