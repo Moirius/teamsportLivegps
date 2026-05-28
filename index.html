@@ -224,6 +224,7 @@
     const wakeLockRef   = useRef(null);
     const trackIdxRef   = useRef(null);
     const retryTimerRef = useRef(null); // timer de reconnexion automatique
+    const retryDelayRef = useRef(3000); // délai courant entre tentatives (exponentiel)
 
     useEffect(() => { gpxRef.current = gpxTrack; }, [gpxTrack]);
 
@@ -386,43 +387,38 @@
     };
 
     // ── MOTO : connexion avec reconnexion automatique silencieuse ────────────
-    const startMoto = (codeOverride) => {
-      const raw = codeOverride != null ? codeOverride : inputCode;
-      if (!raw.trim()) { setStatus("⚠️ Entrez le nom de session"); return; }
-      const code = raw.trim().toUpperCase();
-      setInputCode(code);
-      setSessionCode(code);
-      setScreen("moto");
+    //
+    // Stratégie : à chaque tentative on DÉTRUIT le peer PeerJS et on en crée
+    // un nouveau. Réutiliser un peer en mauvais état cause des blocages
+    // silencieux. Le GPS, lui, n'est jamais touché.
+
+    const connectToRegie = (code) => {
+      clearTimeout(retryTimerRef.current);
+
+      // Détruit l'ancien peer proprement (GPS continue de tourner)
+      if (connRef.current) { try { connRef.current.close();   } catch {} connRef.current = null; }
+      if (peerRef.current) { try { peerRef.current.destroy(); } catch {} peerRef.current = null; }
+
       setStatus("Connexion à la régie…");
-      localStorage.setItem('gpxrace_moto', code);
+      const peer = new Peer();
+      peerRef.current = peer;
 
-      let retryDelay = 3000; // délai initial 3s, double à chaque échec, max 30s
+      // Planifie une nouvelle tentative avec backoff exponentiel (3s → 6s → 12s → 30s max)
+      const retry = () => {
+        setConnected(false);
+        const d = retryDelayRef.current;
+        retryDelayRef.current = Math.min(d * 2, 30000);
+        setStatus(`Perte réseau — reconnexion dans ${Math.round(d / 1000)}s…`);
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = setTimeout(() => connectToRegie(code), d);
+      };
 
-      // Tente de se connecter à la régie. Appelée à chaque reconnexion.
-      const doConnect = (peer) => {
-        if (!peer || peer.destroyed) return;
-        const conn = peer.connect(`gpxrace-${code}`, { reliable:true });
+      peer.on("open", () => {
+        const conn = peer.connect(`gpxrace-${code}`, { reliable: true });
         connRef.current = conn;
 
-        const scheduleRetry = () => {
-          setConnected(false);
-          setStatus(`Perte réseau — nouvelle tentative dans ${Math.round(retryDelay/1000)}s…`);
-          clearTimeout(retryTimerRef.current);
-          retryTimerRef.current = setTimeout(() => {
-            // Si PeerJS lui-même est déconnecté du serveur, le reconnecter d'abord
-            if (peerRef.current && !peerRef.current.destroyed) {
-              if (peerRef.current.disconnected) {
-                peerRef.current.reconnect(); // open se déclenchera à nouveau
-              } else {
-                doConnect(peerRef.current);
-              }
-            }
-          }, retryDelay);
-          retryDelay = Math.min(retryDelay * 2, 30000);
-        };
-
         conn.on("open", () => {
-          retryDelay = 3000; // réinitialise le backoff après une connexion réussie
+          retryDelayRef.current = 3000; // réinitialise le backoff
           setConnected(true);
           setStatus("Connectée — réception du tracé…");
         });
@@ -432,8 +428,7 @@
             setGpxTrack(data.track);
             gpxRef.current = data.track;
             setGpxName(data.name || "Course");
-            setTotalKm(data.track[data.track.length-1].cum);
-            // Restaure la position sur la trace si la page a été rechargée
+            setTotalKm(data.track[data.track.length - 1].cum);
             const savedIdx = localStorage.getItem('gpxrace_moto_idx');
             if (savedIdx !== null) {
               const idx = parseInt(savedIdx);
@@ -441,37 +436,28 @@
             }
             setGpxReceived(true);
             setStatus("Tracé reçu ✓ — GPS actif");
-            startGPS(); // ne démarre qu'une seule fois grâce au guard interne
+            if (!watchRef.current) startGPS(); // démarre le GPS une seule fois
           }
         });
 
-        conn.on("close", scheduleRetry);
-        conn.on("error", scheduleRetry);
-      };
-
-      const peer = new Peer();
-      peerRef.current = peer;
-
-      // Connexion initiale dès que PeerJS est prêt
-      peer.on("open", () => doConnect(peer));
-
-      // Si PeerJS perd sa connexion au serveur relais, il se reconnecte automatiquement
-      // et "open" se redéclenche → doConnect appelé à nouveau
-      peer.on("disconnected", () => {
-        if (!peer.destroyed) peer.reconnect();
+        conn.on("close", retry);
+        conn.on("error", retry);
       });
 
-      peer.on("error", err => {
-        if (err.type === "peer-unavailable") {
-          // La régie n'est pas encore démarrée : on réessaie
-          setStatus(`Régie introuvable — nouvelle tentative dans ${Math.round(retryDelay/1000)}s…`);
-          clearTimeout(retryTimerRef.current);
-          retryTimerRef.current = setTimeout(() => doConnect(peerRef.current), retryDelay);
-          retryDelay = Math.min(retryDelay * 2, 30000);
-        } else {
-          setStatus(`Erreur réseau: ${err.type}`);
-        }
-      });
+      // peer.on("error") couvre : peer-unavailable, réseau inaccessible, timeout PeerJS
+      peer.on("error", retry);
+    };
+
+    const startMoto = (codeOverride) => {
+      const raw = codeOverride != null ? codeOverride : inputCode;
+      if (!raw.trim()) { setStatus("⚠️ Entrez le nom de session"); return; }
+      const code = raw.trim().toUpperCase();
+      setInputCode(code);
+      setSessionCode(code);
+      setScreen("moto");
+      localStorage.setItem('gpxrace_moto', code);
+      retryDelayRef.current = 3000;
+      connectToRegie(code);
     };
 
     // Reconnexion automatique si le téléphone a été rechargé (accidentellement)
