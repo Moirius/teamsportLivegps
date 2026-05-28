@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPX Race Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -19,8 +19,8 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       opacity: 0.4;
     }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
-    @keyframes blink  { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+    @keyframes blink  { 0%,100%{opacity:1}50%{opacity:0.3} }
 
     /* ── Setup ── */
     .setup { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:24px; }
@@ -44,11 +44,8 @@
     .mode-desc { font-size:12px; color:#475569; margin-top:4px; display:block; letter-spacing:0.05em; }
     .code-input { width:100%; background:#060b14; border:1px solid #1e2d45; border-radius:8px; padding:10px 12px; font-size:20px; font-family:'JetBrains Mono',monospace; font-weight:700; letter-spacing:0.3em; text-align:center; color:#06b6d4; text-transform:uppercase; outline:none; margin:10px 0; transition:border-color 0.2s; }
     .code-input:focus { border-color:#06b6d4; }
-    .connect-btn { width:100%; background:#7c3aed; border:none; border-radius:8px; padding:10px; font-size:14px; font-weight:700; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.1em; color:white; cursor:pointer; transition:background 0.2s; text-transform:uppercase; }
-    .connect-btn:hover:not(:disabled) { background:#6d28d9; }
-    .connect-btn:disabled { opacity:0.35; cursor:not-allowed; }
+
     .status-msg { font-size:13px; color:#f59e0b; text-align:center; margin-top:12px; }
-    .loading-msg { font-size:12px; color:#334155; text-align:center; animation:pulse 2s infinite; }
 
     /* ── Shared ── */
     .screen { display:flex; flex-direction:column; align-items:center; min-height:100vh; padding:20px; gap:16px; }
@@ -56,41 +53,39 @@
     .back-btn:hover { color:#64748b; }
     .status-pill { display:flex; align-items:center; gap:10px; background:#0d1626; border-radius:50px; padding:10px 20px; border:1px solid #1e2d45; font-size:14px; font-weight:600; letter-spacing:0.08em; }
     .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-    .dot.green { background:#22c55e; box-shadow:0 0 8px #22c55e; animation:blink 1.5s infinite; }
+    .dot.green  { background:#22c55e; box-shadow:0 0 8px #22c55e; animation:blink 1.5s infinite; }
     .dot.yellow { background:#f59e0b; animation:blink 2s infinite; }
-    .dot.gray { background:#334155; }
+    .dot.red    { background:#ef4444; animation:blink 1s infinite; }
+    .dot.gray   { background:#334155; }
 
-    /* ── Régie (host) ── */
+    /* ── Régie (code display) ── */
     .code-display { background:#0d1626; border:1px solid #1e3a4a; border-radius:16px; padding:24px 32px; text-align:center; width:100%; max-width:340px; }
     .code-label { font-size:10px; letter-spacing:0.3em; color:#334155; text-transform:uppercase; margin-bottom:8px; }
     .code-value { font-size:48px; font-weight:900; font-family:'JetBrains Mono',monospace; color:#06b6d4; letter-spacing:0.2em; line-height:1; }
-    .code-hint { font-size:11px; color:#334155; margin-top:8px; letter-spacing:0.1em; }
+    .code-hint  { font-size:11px; color:#334155; margin-top:8px; letter-spacing:0.1em; }
 
     /* ── Moto ── */
     .gps-card { background:#0d1626; border:1px solid #1e2d45; border-radius:14px; padding:16px 20px; width:100%; max-width:340px; }
-    .gps-label { font-size:10px; letter-spacing:0.3em; color:#334155; text-transform:uppercase; margin-bottom:8px; }
+    .gps-label  { font-size:10px; letter-spacing:0.3em; color:#334155; text-transform:uppercase; margin-bottom:8px; }
     .gps-coords { font-size:11px; font-family:'JetBrains Mono',monospace; color:#64748b; }
-    .gps-acc { font-size:12px; color:#f59e0b; margin-top:4px; }
-    .km-local { font-size:28px; font-weight:900; color:#06b6d4; margin-top:8px; }
+    .gps-acc    { font-size:12px; color:#f59e0b; margin-top:4px; }
+    .km-local   { font-size:28px; font-weight:900; color:#06b6d4; margin-top:8px; }
 
-    /* ── Display / Régie live ── */
+    /* ── Régie live display ── */
     .display { display:flex; flex-direction:column; min-height:100vh; padding:16px; }
     .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
     .conn-badge { display:flex; align-items:center; gap:7px; background:#0d1626; border-radius:50px; padding:6px 14px; font-size:12px; letter-spacing:0.12em; color:#64748b; border:1px solid #1e2d45; }
     .race-name { font-size:13px; font-weight:700; letter-spacing:0.2em; color:#334155; text-transform:uppercase; text-align:center; margin-bottom:8px; }
     .km-display { display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:8px; }
     .km-number { font-size:clamp(72px,18vw,128px); font-weight:900; line-height:1; color:#f1f5f9; font-family:'Barlow Condensed',sans-serif; letter-spacing:-0.02em; transition:all 0.3s; }
-    .km-unit { font-size:clamp(24px,5vw,36px); font-weight:700; color:#06b6d4; letter-spacing:0.1em; text-transform:uppercase; }
+    .km-unit   { font-size:clamp(24px,5vw,36px); font-weight:700; color:#06b6d4; letter-spacing:0.1em; text-transform:uppercase; }
     .km-waiting { font-size:20px; color:#334155; letter-spacing:0.15em; animation:pulse 2s infinite; }
     .progress-wrap { width:100%; max-width:440px; padding:0 4px; }
     .progress-meta { display:flex; justify-content:space-between; font-size:12px; color:#334155; letter-spacing:0.08em; margin-bottom:8px; font-family:'JetBrains Mono',monospace; }
-    .progress-bar { height:6px; background:#0d1626; border-radius:3px; overflow:hidden; border:1px solid #1e2d45; }
+    .progress-bar  { height:6px; background:#0d1626; border-radius:3px; overflow:hidden; border:1px solid #1e2d45; }
     .progress-fill { height:100%; background:linear-gradient(90deg,#0e7490,#06b6d4); border-radius:3px; transition:width 0.6s cubic-bezier(0.25,1,0.5,1); box-shadow:0 0 8px #06b6d480; }
-    .progress-pct { text-align:right; font-size:11px; color:#1e3a4a; font-family:'JetBrains Mono',monospace; margin-top:5px; letter-spacing:0.1em; }
+    .progress-pct  { text-align:right; font-size:11px; color:#1e3a4a; font-family:'JetBrains Mono',monospace; margin-top:5px; letter-spacing:0.1em; }
     .gps-acc-display { font-size:11px; color:#1e3a4a; font-family:'JetBrains Mono',monospace; letter-spacing:0.1em; }
-
-    /* ── vMix mode ── */
-    .vmix-root { display:flex; align-items:center; justify-content:center; min-height:100vh; background:transparent; font-family:'Barlow Condensed',sans-serif; }
   </style>
 </head>
 <body>
@@ -98,450 +93,490 @@
 <script type="text/babel">
   const { useState, useEffect, useRef } = React;
 
-  // ── Geo math ─────────────────────────────────────────────────────────────
-  function haversine(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
-    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-    return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  // ── Geo math ──────────────────────────────────────────────────────────────
+  function haversine(la1, lo1, la2, lo2) {
+    const R = 6371, r = Math.PI / 180;
+    const dL = (la2 - la1) * r, dN = (lo2 - lo1) * r;
+    const a = Math.sin(dL/2)**2 + Math.cos(la1*r)*Math.cos(la2*r)*Math.sin(dN/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   }
 
   function parseGPX(xml) {
     try {
-      const doc = new DOMParser().parseFromString(xml, "text/xml");
-      const trkpts = [...doc.querySelectorAll("trkpt")];
-      const rtepts = [...doc.querySelectorAll("rtept")];
+      const doc = new DOMParser().parseFromString(xml, 'text/xml');
+      const trkpts = [...doc.querySelectorAll('trkpt')];
+      const rtepts = [...doc.querySelectorAll('rtept')];
       const src = trkpts.length > 0 ? trkpts : rtepts;
       if (src.length < 2) return null;
-      const pts = src.map(el => ({ lat: parseFloat(el.getAttribute("lat")), lon: parseFloat(el.getAttribute("lon")) }))
-                     .filter(p => !isNaN(p.lat) && !isNaN(p.lon));
+      const pts = src.map(el => ({
+        lat: parseFloat(el.getAttribute('lat')),
+        lon: parseFloat(el.getAttribute('lon'))
+      })).filter(p => !isNaN(p.lat) && !isNaN(p.lon));
       let cum = 0;
-      return pts.map((p,i) => { if(i>0) cum+=haversine(pts[i-1].lat,pts[i-1].lon,p.lat,p.lon); return {...p,cum}; });
+      return pts.map((p, i) => {
+        if (i > 0) cum += haversine(pts[i-1].lat, pts[i-1].lon, p.lat, p.lon);
+        return { lat: p.lat, lon: p.lon, cum };
+      });
     } catch { return null; }
   }
 
-  function getRemainingKm(track, lat, lon) {
+  // Recherche fenêtrée autour de fromIdx pour gérer les boucles.
+  // Ne cherche que dans une fenêtre de ±WB pts en arrière et WF pts en avant,
+  // ce qui empêche de confondre le km 59 avec le km 72 sur une boucle de 13 km.
+  // Retourne { km, idx } — idx sert de point de départ pour l'appel suivant.
+  function getRemainingKm(track, lat, lon, fromIdx) {
     if (!track?.length) return null;
-    let minD = Infinity, idx = 0;
-    track.forEach((p,i) => { const d=haversine(lat,lon,p.lat,p.lon); if(d<minD){minD=d;idx=i;} });
-    const total = track[track.length-1].cum;
-    const a = track[idx], b = track[Math.min(idx+1,track.length-1)];
-    const segLen = haversine(a.lat,a.lon,b.lat,b.lon);
-    if (segLen > 0.001) {
-      const dA=haversine(lat,lon,a.lat,a.lon), dB=haversine(lat,lon,b.lat,b.lon);
-      const t=Math.max(0,Math.min(1,(dA**2-dB**2+segLen**2)/(2*segLen**2)));
-      return Math.max(0, total-(a.cum+t*segLen));
+    const fi = fromIdx || 0;
+    const WF = 300, WB = 80;  // ~11 km avant, ~3 km arrière (boucle = 13 km → pas de faux snap)
+    const s = Math.max(0, fi - WB);
+    const e = Math.min(track.length - 1, fi + WF);
+    let minD = Infinity, idx = fi;
+    for (let i = s; i <= e; i++) {
+      const d = haversine(lat, lon, track[i].lat, track[i].lon);
+      if (d < minD) { minD = d; idx = i; }
     }
-    return Math.max(0, total-a.cum);
+    const total = track[track.length - 1].cum;
+    const a = track[idx], b = track[Math.min(idx + 1, track.length - 1)];
+    const seg = haversine(a.lat, a.lon, b.lat, b.lon);
+    if (seg > 0.001) {
+      const dA = haversine(lat, lon, a.lat, a.lon);
+      const dB = haversine(lat, lon, b.lat, b.lon);
+      const t = Math.max(0, Math.min(1, (dA*dA - dB*dB + seg*seg) / (2*seg*seg)));
+      return { km: Math.max(0, total - (a.cum + t * seg)), idx };
+    }
+    return { km: Math.max(0, total - a.cum), idx };
   }
 
-  // ── SVG Track Map ─────────────────────────────────────────────────────────
-  function TrackMap({ track, currentPos, compact=false }) {
+  // ── LocalStorage ──────────────────────────────────────────────────────────
+  const LS = {
+    save(track, name, code, idx) {
+      try {
+        localStorage.setItem('gpx_t', JSON.stringify(track));
+        localStorage.setItem('gpx_n', name || '');
+        localStorage.setItem('gpx_c', code || '');
+        localStorage.setItem('gpx_i', String(idx || 0));
+      } catch {}
+    },
+    load() {
+      try {
+        const raw = localStorage.getItem('gpx_t');
+        if (!raw) return null;
+        return {
+          track: JSON.parse(raw),
+          name:  localStorage.getItem('gpx_n') || 'Course',
+          code:  localStorage.getItem('gpx_c') || '',
+          idx:   parseInt(localStorage.getItem('gpx_i') || '0')
+        };
+      } catch { return null; }
+    },
+    saveKm(km)  { try { localStorage.setItem('gpx_km', String(km)); } catch {} },
+    saveIdx(idx){ try { localStorage.setItem('gpx_i',  String(idx)); } catch {} }
+  };
+
+  // ── Relais JSON → vMix Data Source ──────────────────────────────────────
+  // POSTe les données de course vers relay.js (localhost:8765).
+  // vMix interroge GET http://localhost:8765/ et reçoit le JSON en retour.
+  const RELAY_URL = 'http://localhost:8765/';
+  function postRelay(km, totalKm) {
+    const done = totalKm - km;
+    fetch(RELAY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        km_restants: km.toFixed(1),
+        done_km:     done.toFixed(1),
+        total_km:    totalKm.toFixed(1),
+        pct:         (totalKm > 0 ? (done / totalKm) * 100 : 0).toFixed(1)
+      })
+    }).catch(() => {});
+  }
+
+  // ── SVG TrackMap ──────────────────────────────────────────────────────────
+  // progressIdx : indice courant dans le tracé (gérer les boucles correctement)
+  function TrackMap({ track, currentPos, progressIdx = 0, compact = false }) {
     if (!track?.length) return null;
-    const lats=track.map(p=>p.lat), lons=track.map(p=>p.lon);
-    const minLat=Math.min(...lats), maxLat=Math.max(...lats);
-    const minLon=Math.min(...lons), maxLon=Math.max(...lons);
-    const W=compact?280:360, H=compact?140:190, pad=18, w=W-2*pad, h=H-2*pad;
-    const x = lon => pad+((lon-minLon)/(maxLon-minLon||1))*w;
-    const y = lat => pad+h-((lat-minLat)/(maxLat-minLat||1))*h;
-    const stride = Math.max(1,Math.floor(track.length/400));
-    const sampled = track.filter((_,i)=>i%stride===0||i===track.length-1);
-    const pathD = sampled.map((p,i)=>`${i===0?"M":"L"}${x(p.lon).toFixed(1)} ${y(p.lat).toFixed(1)}`).join(" ");
-    const totalKm = track[track.length-1].cum;
-    const done = currentPos ? totalKm-(getRemainingKm(track,currentPos.lat,currentPos.lon)??totalKm) : 0;
-    const progressIdx = Math.floor((totalKm>0?done/totalKm:0)*(sampled.length-1));
-    const progressPath = sampled.slice(0,progressIdx+1).map((p,i)=>`${i===0?"M":"L"}${x(p.lon).toFixed(1)} ${y(p.lat).toFixed(1)}`).join(" ");
-    const cx=currentPos?x(currentPos.lon):null, cy=currentPos?y(currentPos.lat):null;
+    const lats = track.map(p => p.lat), lons = track.map(p => p.lon);
+    const [mnLa, mxLa] = [Math.min(...lats), Math.max(...lats)];
+    const [mnLo, mxLo] = [Math.min(...lons), Math.max(...lons)];
+    const W = compact ? 280 : 360, H = compact ? 140 : 190, pad = 18, w = W-2*pad, h = H-2*pad;
+    const px = lo => pad + ((lo - mnLo) / (mxLo - mnLo || 1)) * w;
+    const py = la => pad + h - ((la - mnLa) / (mxLa - mnLa || 1)) * h;
+    const stride = Math.max(1, Math.floor(track.length / 400));
+    const sampled = track.filter((_, i) => i % stride === 0 || i === track.length - 1);
+    const pathD = sampled.map((p, i) => `${i===0?'M':'L'}${px(p.lon).toFixed(1)} ${py(p.lat).toFixed(1)}`).join(' ');
+    // Tracé parcouru : jusqu'à progressIdx inclus (correct sur boucles)
+    const done = track.filter((_, i) => i <= progressIdx && (i % stride === 0 || i === progressIdx));
+    const progD = done.length > 1 ? done.map((p, i) => `${i===0?'M':'L'}${px(p.lon).toFixed(1)} ${py(p.lat).toFixed(1)}`).join(' ') : null;
+    const [cx, cy] = currentPos ? [px(currentPos.lon), py(currentPos.lat)] : [null, null];
     return (
-      <svg width={W} height={H} style={{borderRadius:12,background:"#080c14",display:"block"}}>
+      <svg width={W} height={H} style={{borderRadius:12,background:'#080c14',display:'block'}}>
         <defs>
-          <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          <linearGradient id="pgrd" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#06b6d4"/><stop offset="100%" stopColor="#22d3ee"/></linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="pgrd" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stopColor="#06b6d4"/>
+            <stop offset="100%" stopColor="#22d3ee"/>
+          </linearGradient>
         </defs>
         <path d={pathD} fill="none" stroke="#1e3a4a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-        {progressPath && <path d={progressPath} fill="none" stroke="url(#pgrd)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" filter="url(#glow)"/>}
-        <circle cx={x(track[0].lon)} cy={y(track[0].lat)} r={5} fill="#22c55e"/>
-        <text x={x(track[0].lon)+7} y={y(track[0].lat)+4} fill="#22c55e" fontSize="9" fontFamily="monospace" fontWeight="bold">START</text>
-        <circle cx={x(track[track.length-1].lon)} cy={y(track[track.length-1].lat)} r={5} fill="#f97316"/>
-        <text x={x(track[track.length-1].lon)+7} y={y(track[track.length-1].lat)+4} fill="#f97316" fontSize="9" fontFamily="monospace" fontWeight="bold">FIN</text>
+        {progD && <path d={progD} fill="none" stroke="url(#pgrd)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" filter="url(#glow)"/>}
+        <circle cx={px(track[0].lon)} cy={py(track[0].lat)} r={5} fill="#22c55e"/>
+        <text x={px(track[0].lon)+7} y={py(track[0].lat)+4} fill="#22c55e" fontSize="9" fontFamily="monospace" fontWeight="bold">START</text>
+        <circle cx={px(track[track.length-1].lon)} cy={py(track[track.length-1].lat)} r={5} fill="#f97316"/>
+        <text x={px(track[track.length-1].lon)+7} y={py(track[track.length-1].lat)+4} fill="#f97316" fontSize="9" fontFamily="monospace" fontWeight="bold">FIN</text>
         {currentPos && <>
           <circle cx={cx} cy={cy} r={11} fill="#facc15" opacity="0.15"/>
-          <circle cx={cx} cy={cy} r={6} fill="#facc15" stroke="#fff" strokeWidth="1.5"/>
+          <circle cx={cx} cy={cy} r={6}  fill="#facc15" stroke="#fff" strokeWidth="1.5"/>
         </>}
       </svg>
     );
   }
 
-  // ── vMix Display (mode ?vmix) ─────────────────────────────────────────────
-  // Ouvrir cette page dans vMix : index.html?vmix
-  // La régie écrit dans localStorage("gpxrace_km"), cette page le lit en temps réel.
-  // Les deux pages doivent être ouvertes dans le même navigateur sur la machine régie.
-  function VmixDisplay() {
-    const [km, setKm] = useState(() => localStorage.getItem('gpxrace_km'));
+  // ── App ───────────────────────────────────────────────────────────────────
+  function App() {
+    const [screen,       setScreen]       = useState('setup');
+    const [gpxTrack,     setGpxTrack]     = useState(null);
+    const [gpxName,      setGpxName]      = useState('');
+    const [totalKm,      setTotalKm]      = useState(0);
+    const [sessionCode,  setSessionCode]  = useState('');
+    const [inputCode,    setInputCode]    = useState(() => localStorage.getItem('gpx_c') || '');
+    const [status,       setStatus]       = useState('');
+    const [connected,    setConnected]    = useState(false);
+    const [peerReady,    setPeerReady]    = useState(false);
+    const [currentPos,   setCurrentPos]   = useState(null);
+    const [remainingKm,  setRemainingKm]  = useState(null);
+    const [accuracy,     setAccuracy]     = useState(null);
+    const [progressIdx,  setProgressIdx]  = useState(0);
 
-    useEffect(() => {
-      // Réagit instantanément aux mises à jour de la régie via storage event
-      const onStorage = e => { if (e.key === 'gpxrace_km') setKm(e.newValue); };
-      window.addEventListener('storage', onStorage);
-      // Fallback poll toutes les secondes au cas où storage event ne se déclenche pas
-      const poll = setInterval(() => setKm(localStorage.getItem('gpxrace_km')), 1000);
-      return () => { window.removeEventListener('storage', onStorage); clearInterval(poll); };
+    // Refs — accès sans stale-closure depuis les callbacks PeerJS / geolocation
+    const peerRef        = useRef(null);
+    const connRef        = useRef(null);
+    const watchRef       = useRef(null);
+    const gpxRef         = useRef(null);
+    const gpxNameRef     = useRef('');
+    const totalKmRef     = useRef(0);
+    const lastSentRef    = useRef(null);
+    const progressIdxRef = useRef(0);
+    const reconnTimerRef = useRef(null);
+    const sessionCodeRef = useRef('');
+    const screenRef      = useRef('setup');
+
+    useEffect(() => { gpxRef.current      = gpxTrack;       }, [gpxTrack]);
+    useEffect(() => { gpxNameRef.current  = gpxName;        }, [gpxName]);
+    useEffect(() => { totalKmRef.current  = totalKm;        }, [totalKm]);
+    useEffect(() => { progressIdxRef.current = progressIdx; }, [progressIdx]);
+    useEffect(() => { sessionCodeRef.current = sessionCode; }, [sessionCode]);
+    useEffect(() => { screenRef.current   = screen;         }, [screen]);
+
+    // Cleanup global
+    useEffect(() => () => {
+      if (watchRef.current)    navigator.geolocation.clearWatch(watchRef.current);
+      if (reconnTimerRef.current) clearTimeout(reconnTimerRef.current);
+      try { connRef.current?.close();  } catch {}
+      try { peerRef.current?.destroy();} catch {}
     }, []);
 
-    return (
-      <div className="vmix-root">
-        <span style={{fontSize:96, fontWeight:900, color:'white', lineHeight:1}}>
-          {km ?? '---'}
-        </span>
-        <span style={{fontSize:36, fontWeight:700, color:'#06b6d4', marginLeft:10, lineHeight:1, alignSelf:'flex-end', paddingBottom:8}}>
-          km
-        </span>
-      </div>
-    );
-  }
+    function goBack() {
+      if (watchRef.current)    { navigator.geolocation.clearWatch(watchRef.current); watchRef.current = null; }
+      if (reconnTimerRef.current) { clearTimeout(reconnTimerRef.current); reconnTimerRef.current = null; }
+      try { connRef.current?.close();  } catch {} connRef.current = null;
+      try { peerRef.current?.destroy();} catch {} peerRef.current = null;
+      setScreen('setup'); setConnected(false); setPeerReady(false);
+      setCurrentPos(null); setRemainingKm(null); setStatus(''); setProgressIdx(0);
+    }
 
-  // ── App principal ─────────────────────────────────────────────────────────
-  function App() {
-    const [screen, setScreen]           = useState("setup");
-    const [gpxTrack, setGpxTrack]       = useState(null);
-    const [gpxName, setGpxName]         = useState("");
-    const [totalKm, setTotalKm]         = useState(0);
-    const [sessionCode, setSessionCode] = useState("");
-    const [inputCode, setInputCode]     = useState("");
-    const [status, setStatus]           = useState("");
-    const [connected, setConnected]     = useState(false);
-    const [peerReady, setPeerReady]     = useState(false);
-    const [currentPos, setCurrentPos]   = useState(null);
-    const [remainingKm, setRemainingKm] = useState(null);
-    const [accuracy, setAccuracy]       = useState(null);
-    const [gpxReceived, setGpxReceived] = useState(false);
+    // ── Appliquer un tracé (depuis fichier ou localStorage) ──────────────────
+    function applyTrack(track, name) {
+      gpxRef.current    = track;
+      gpxNameRef.current = name;
+      setGpxTrack(track);
+      setGpxName(name);
+      setTotalKm(track[track.length - 1].cum);
+    }
 
-    const peerRef       = useRef(null);
-    const connRef       = useRef(null);
-    const watchRef      = useRef(null);
-    const gpxRef        = useRef(null);
-    const lastSentRef   = useRef(null);
-    const wakeLockRef   = useRef(null);
-    const trackIdxRef   = useRef(null);
-    const retryTimerRef = useRef(null); // timer de reconnexion automatique
-    const retryDelayRef = useRef(3000); // délai courant entre tentatives (exponentiel)
-
-    useEffect(() => { gpxRef.current = gpxTrack; }, [gpxTrack]);
-
-    // Wake Lock : empêche l'écran de se verrouiller en mode moto
-    useEffect(() => {
-      if (screen !== "moto") return;
-      const acquire = async () => {
-        try { if ("wakeLock" in navigator) wakeLockRef.current = await navigator.wakeLock.request("screen"); } catch {}
-      };
-      acquire();
-      const onVisible = () => { if (document.visibilityState === "visible") acquire(); };
-      document.addEventListener("visibilitychange", onVisible);
-      return () => {
-        document.removeEventListener("visibilitychange", onVisible);
-        wakeLockRef.current?.release().catch(()=>{});
-        wakeLockRef.current = null;
-      };
-    }, [screen]);
-
-    const cleanup = () => {
-      if (retryTimerRef.current) { clearTimeout(retryTimerRef.current); retryTimerRef.current = null; }
-      if (watchRef.current) { navigator.geolocation.clearWatch(watchRef.current); watchRef.current = null; }
-      if (connRef.current)  { try { connRef.current.close();  } catch {} connRef.current = null; }
-      if (peerRef.current)  { try { peerRef.current.destroy();} catch {} peerRef.current = null; }
-    };
-    useEffect(() => cleanup, []);
-
-    const goBack = () => {
-      cleanup();
-      localStorage.removeItem('gpxrace_moto');
-      localStorage.removeItem('gpxrace_moto_idx');
-      localStorage.removeItem('gpxrace_km');
-      trackIdxRef.current = null;
-      setScreen("setup"); setConnected(false); setPeerReady(false);
-      setCurrentPos(null); setRemainingKm(null); setStatus("");
-      setGpxReceived(false);
-    };
-
-    // ── Charger GPX ──────────────────────────────────────────────────────────
+    // ── Chargement GPX (régie) ───────────────────────────────────────────────
     const handleGPX = e => {
       const file = e.target.files[0];
       if (!file) return;
       const r = new FileReader();
       r.onload = ev => {
         const track = parseGPX(ev.target.result);
-        if (!track || track.length < 2) { setStatus("⚠️ GPX invalide ou trop court"); return; }
-        setGpxTrack(track);
-        setGpxName(file.name.replace(".gpx",""));
-        setTotalKm(track[track.length-1].cum);
-        setStatus("");
+        if (!track || track.length < 2) { setStatus('⚠️ GPX invalide ou trop court'); return; }
+        applyTrack(track, file.name.replace('.gpx', ''));
+        setStatus('');
       };
       r.readAsText(file);
     };
 
     // ── GPS watch (moto) ─────────────────────────────────────────────────────
-    const SEND_EVERY_KM = 0.1; // envoie tous les 100m
-
-    const startGPS = () => {
-      // Ne démarre qu'une seule fois même après reconnexion PeerJS
-      if (watchRef.current !== null) return;
-      if (!navigator.geolocation) { setStatus("❌ GPS non disponible"); return; }
-
+    // Démarre le GPS. Idempotent (vérifie watchRef). GPS continue même hors-ligne.
+    const SEND_EVERY_KM = 0.1;
+    function startGPS() {
+      if (watchRef.current) return;
+      if (!navigator.geolocation) { setStatus('❌ GPS non disponible'); return; }
       watchRef.current = navigator.geolocation.watchPosition(
         pos => {
-          const { latitude:lat, longitude:lon, accuracy:acc } = pos.coords;
+          const { latitude: lat, longitude: lon, accuracy: acc } = pos.coords;
           setCurrentPos({ lat, lon });
           setAccuracy(acc);
-
-          const track = gpxRef.current;
-          let remaining = null;
-          if (track?.length) {
-            // Fenêtre glissante calculée en distance (km) pour éviter de sauter
-            // sur un autre tour quand le circuit repasse au même endroit.
-            // 4 km en avant = largement suffisant pour compenser un décrochage GPS
-            // tout en restant en dessous de la longueur d'un tour de circuit.
-            const metersPerPoint = (track[track.length-1].cum * 1000) / Math.max(1, track.length - 1);
-            const lookahead = Math.max(30,  Math.round(4000 / metersPerPoint)); // ~4 km
-            const lookback  = Math.max(3,   Math.round(150  / metersPerPoint)); // ~150 m
-            const lastIdx = trackIdxRef.current;
-            const searchStart = lastIdx !== null ? Math.max(0, lastIdx - lookback)                    : 0;
-            const searchEnd   = lastIdx !== null ? Math.min(track.length - 1, lastIdx + lookahead)    : track.length - 1;
-            let minD = Infinity, idx = lastIdx ?? 0;
-            for (let i = searchStart; i <= searchEnd; i++) {
-              const d = haversine(lat, lon, track[i].lat, track[i].lon);
-              if (d < minD) { minD = d; idx = i; }
-            }
-            trackIdxRef.current = idx;
-            localStorage.setItem('gpxrace_moto_idx', String(idx));
-            const total = track[track.length-1].cum;
-            const a = track[idx], b = track[Math.min(idx+1, track.length-1)];
-            const segLen = haversine(a.lat, a.lon, b.lat, b.lon);
-            if (segLen > 0.001) {
-              const dA = haversine(lat, lon, a.lat, a.lon), dB = haversine(lat, lon, b.lat, b.lon);
-              const t = Math.max(0, Math.min(1, (dA*dA - dB*dB + segLen*segLen) / (2*segLen*segLen)));
-              remaining = Math.max(0, total - (a.cum + t*segLen));
-            } else {
-              remaining = Math.max(0, total - a.cum);
-            }
+          if (!gpxRef.current) return;
+          const res = getRemainingKm(gpxRef.current, lat, lon, progressIdxRef.current);
+          if (!res) return;
+          const { km, idx } = res;
+          setRemainingKm(km);
+          if (idx !== progressIdxRef.current) {
+            setProgressIdx(idx);
+            progressIdxRef.current = idx;
           }
-
-          setRemainingKm(remaining);
+          LS.saveKm(km);
+          // Envoi vers la régie tous les 100 m de déplacement réel
           const last = lastSentRef.current;
           const moved = last ? haversine(last.lat, last.lon, lat, lon) : Infinity;
           if (moved >= SEND_EVERY_KM && connRef.current?.open) {
-            connRef.current.send({ type:"pos", lat, lon, acc, remaining, t:Date.now() });
+            connRef.current.send({ type: 'pos', lat, lon, acc, idx, t: Date.now() });
             lastSentRef.current = { lat, lon };
           }
         },
         err => setStatus(`GPS : ${err.message}`),
-        { enableHighAccuracy:true, maximumAge:2000, timeout:15000 }
+        { enableHighAccuracy: true, maximumAge: 2000, timeout: 15000 }
       );
-    };
+    }
 
-    // ── RÉGIE : crée le peer, attend la moto ─────────────────────────────────
-    const startRegie = () => {
-      if (!gpxTrack) { setStatus("⚠️ Chargez un fichier GPX"); return; }
-      if (!inputCode.trim()) { setStatus("⚠️ Entrez un nom de session"); return; }
-      const code = inputCode.trim().toUpperCase();
-      setSessionCode(code);
-      setScreen("regie");
-      setPeerReady(false); setConnected(false);
+    // ── Reconnexion moto ─────────────────────────────────────────────────────
+    // Planifie une reconnexion après 5 s. N'intervient que si toujours en mode moto.
+    function scheduleReconnect() {
+      if (reconnTimerRef.current) clearTimeout(reconnTimerRef.current);
+      reconnTimerRef.current = setTimeout(() => {
+        if (screenRef.current === 'moto') connectMoto();
+      }, 5000);
+    }
 
-      const peer = new Peer(`gpxrace-${code}`);
-      peerRef.current = peer;
-      peer.on("open", () => { setPeerReady(true); setStatus("En attente de la moto…"); });
-      peer.on("connection", conn => {
-        // Ferme l'ancienne connexion si la moto se reconnecte
-        if (connRef.current) { try { connRef.current.close(); } catch {} }
-        connRef.current = conn;
-        conn.on("open", () => {
-          setConnected(true); setStatus("Moto connectée ✓");
-          conn.send({ type:"gpx", track: gpxRef.current, name: gpxName });
-        });
-        conn.on("data", data => {
-          if (data.type === "pos") {
-            setCurrentPos({ lat:data.lat, lon:data.lon });
-            setAccuracy(data.acc);
-            const rem = data.remaining != null
-              ? data.remaining
-              : getRemainingKm(gpxRef.current, data.lat, data.lon);
-            setRemainingKm(rem);
-            // Écrit le km restant pour la page vMix locale et l'endpoint vMix Data Source
-            if (rem != null) {
-              localStorage.setItem('gpxrace_km', rem.toFixed(1));
-              fetch('/api/km', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ km: rem.toFixed(1) })
-              }).catch(() => {}); // échec silencieux si pas de réseau
-            }
-          }
-        });
-        conn.on("close", () => { setConnected(false); setStatus("Moto déconnectée — en attente de reconnexion…"); });
-        conn.on("error", err => setStatus(`Erreur: ${err}`));
-      });
-      peer.on("error", err => {
-        if (err.type === "unavailable-id") setStatus("⚠️ Ce nom de session est déjà utilisé.");
-        else setStatus(`Erreur: ${err.type}`);
-      });
-    };
+    // Établit (ou rétablit) la connexion PeerJS vers la régie.
+    // Utilise uniquement des refs → pas de stale-closure, safe depuis setTimeout.
+    function connectMoto() {
+      const code = sessionCodeRef.current;
+      if (!code || connRef.current?.open) return;
+      // Détruire l'ancien peer avant d'en créer un nouveau
+      if (peerRef.current) {
+        try { peerRef.current.destroy(); } catch {}
+        peerRef.current = null;
+        connRef.current = null;
+      }
 
-    // ── MOTO : connexion avec reconnexion automatique silencieuse ────────────
-    //
-    // Stratégie : à chaque tentative on DÉTRUIT le peer PeerJS et on en crée
-    // un nouveau. Réutiliser un peer en mauvais état cause des blocages
-    // silencieux. Le GPS, lui, n'est jamais touché.
-
-    const connectToRegie = (code) => {
-      clearTimeout(retryTimerRef.current);
-
-      // Détruit l'ancien peer proprement (GPS continue de tourner)
-      if (connRef.current) { try { connRef.current.close();   } catch {} connRef.current = null; }
-      if (peerRef.current) { try { peerRef.current.destroy(); } catch {} peerRef.current = null; }
-
-      setStatus("Connexion à la régie…");
-      const peer = new Peer();
+      const peer = new Peer({ debug: 0 });
       peerRef.current = peer;
 
-      // Planifie une nouvelle tentative avec backoff exponentiel (3s → 6s → 12s → 30s max)
-      const retry = () => {
-        setConnected(false);
-        const d = retryDelayRef.current;
-        retryDelayRef.current = Math.min(d * 2, 30000);
-        setStatus(`Perte réseau — reconnexion dans ${Math.round(d / 1000)}s…`);
-        clearTimeout(retryTimerRef.current);
-        retryTimerRef.current = setTimeout(() => connectToRegie(code), d);
-      };
-
-      peer.on("open", () => {
+      peer.on('open', () => {
         const conn = peer.connect(`gpxrace-${code}`, { reliable: true });
         connRef.current = conn;
 
-        conn.on("open", () => {
-          retryDelayRef.current = 3000; // réinitialise le backoff
+        conn.on('open', () => {
           setConnected(true);
-          setStatus("Connectée — réception du tracé…");
-        });
-
-        conn.on("data", data => {
-          if (data.type === "gpx" && data.track) {
-            setGpxTrack(data.track);
-            gpxRef.current = data.track;
-            setGpxName(data.name || "Course");
-            setTotalKm(data.track[data.track.length - 1].cum);
-            const savedIdx = localStorage.getItem('gpxrace_moto_idx');
-            if (savedIdx !== null) {
-              const idx = parseInt(savedIdx);
-              if (!isNaN(idx) && idx < data.track.length) trackIdxRef.current = idx;
-            }
-            setGpxReceived(true);
-            setStatus("Tracé reçu ✓ — GPS actif");
-            if (!watchRef.current) startGPS(); // démarre le GPS une seule fois
+          if (gpxRef.current) {
+            setStatus('Reconnectée ✓ — GPS actif');
+            startGPS();
+          } else {
+            setStatus('Connectée — réception du tracé…');
           }
         });
 
-        conn.on("close", retry);
-        conn.on("error", retry);
+        conn.on('data', data => {
+          if (data.type !== 'gpx' || !data.track) return;
+          const name = data.name || 'Course';
+          const savedIdx = progressIdxRef.current;  // conserve la position dans la boucle
+          applyTrack(data.track, name);
+          LS.save(data.track, name, code, savedIdx);
+          setStatus('Tracé reçu ✓ — GPS actif');
+          startGPS();
+        });
+
+        conn.on('close', () => {
+          setConnected(false);
+          setStatus('Régie déconnectée — reconnexion dans 5 s…');
+          LS.saveIdx(progressIdxRef.current);
+          scheduleReconnect();
+        });
+
+        conn.on('error', () => {
+          setConnected(false);
+          scheduleReconnect();
+        });
       });
 
-      // peer.on("error") couvre : peer-unavailable, réseau inaccessible, timeout PeerJS
-      peer.on("error", retry);
-    };
+      peer.on('error', err => {
+        if (err.type === 'peer-unavailable') setStatus('Régie hors ligne — réessai dans 5 s…');
+        else setStatus(`Erreur : ${err.type} — réessai…`);
+        scheduleReconnect();
+      });
+    }
 
-    const startMoto = (codeOverride) => {
-      const raw = codeOverride != null ? codeOverride : inputCode;
-      if (!raw.trim()) { setStatus("⚠️ Entrez le nom de session"); return; }
-      const code = raw.trim().toUpperCase();
-      setInputCode(code);
+    // ── Démarrage MOTO ───────────────────────────────────────────────────────
+    const startMoto = () => {
+      if (!inputCode.trim()) { setStatus('⚠️ Entrez le nom de session'); return; }
+      const code = inputCode.trim().toUpperCase();
       setSessionCode(code);
-      setScreen("moto");
-      localStorage.setItem('gpxrace_moto', code);
-      retryDelayRef.current = 3000;
-      connectToRegie(code);
+      sessionCodeRef.current = code;
+      localStorage.setItem('gpx_c', code);
+      setScreen('moto');
+      screenRef.current = 'moto';
+      setStatus('Connexion à la régie…');
+
+      // Restauration depuis localStorage si même session → GPS démarre sans attendre
+      const saved = LS.load();
+      if (saved?.track && saved.code === code) {
+        applyTrack(saved.track, saved.name);
+        const idx = saved.idx || 0;
+        setProgressIdx(idx);
+        progressIdxRef.current = idx;
+        startGPS();  // GPS immédiat, même si régie hors ligne
+      }
+      connectMoto();
     };
 
-    // Reconnexion automatique si le téléphone a été rechargé (accidentellement)
-    useEffect(() => {
-      const savedCode = localStorage.getItem('gpxrace_moto');
-      if (savedCode) startMoto(savedCode);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // ── Démarrage RÉGIE ──────────────────────────────────────────────────────
+    const startRegie = () => {
+      if (!gpxTrack)          { setStatus('⚠️ Chargez un fichier GPX'); return; }
+      if (!inputCode.trim())  { setStatus('⚠️ Entrez un nom de session'); return; }
+      const code = inputCode.trim().toUpperCase();
+      setSessionCode(code);
+      sessionCodeRef.current = code;
+      localStorage.setItem('gpx_c', code);
+      setScreen('regie');
+      screenRef.current = 'regie';
+      setPeerReady(false); setConnected(false);
 
-    const progress = totalKm > 0 && remainingKm != null ? ((totalKm-remainingKm)/totalKm)*100 : 0;
+      const peer = new Peer(`gpxrace-${code}`, { debug: 0 });
+      peerRef.current = peer;
+
+      peer.on('open', () => { setPeerReady(true); setStatus('En attente de la moto…'); });
+
+      peer.on('connection', conn => {
+        // Accepte reconnexions de la moto sans intervention
+        if (connRef.current && connRef.current !== conn) {
+          try { connRef.current.close(); } catch {}
+        }
+        connRef.current = conn;
+        conn.on('open', () => {
+          setConnected(true); setStatus('Moto connectée ✓');
+          conn.send({ type: 'gpx', track: gpxRef.current, name: gpxNameRef.current });
+        });
+        conn.on('data', data => {
+          if (data.type !== 'pos') return;
+          const { lat, lon, acc, idx } = data;
+          setCurrentPos({ lat, lon }); setAccuracy(acc);
+          // Utilise l'idx de la moto comme point de départ → cohérence sur boucles
+          const res = getRemainingKm(gpxRef.current, lat, lon, idx ?? progressIdxRef.current);
+          if (!res) return;
+          setRemainingKm(res.km);
+          setProgressIdx(res.idx);
+          progressIdxRef.current = res.idx;
+          LS.saveKm(res.km);
+          postRelay(res.km, totalKmRef.current);
+        });
+        conn.on('close', () => { setConnected(false); setStatus('Moto déconnectée — en attente…'); });
+        conn.on('error', err => setStatus(`Erreur conn : ${err}`));
+      });
+
+      peer.on('error', err => {
+        if (err.type === 'unavailable-id') setStatus('⚠️ Session déjà utilisée. Changez de nom.');
+        else setStatus(`Erreur : ${err.type}`);
+      });
+    };
+
+    const progress = totalKm > 0 && remainingKm != null ? ((totalKm - remainingKm) / totalKm) * 100 : 0;
     const doneKm   = totalKm - (remainingKm ?? totalKm);
 
     // ════════════════════════════════════════════════════════════════════════
     // SETUP
     // ════════════════════════════════════════════════════════════════════════
-    if (screen === "setup") return (
+    if (screen === 'setup') return (
       <div className="setup">
         <p className="logo">Cycling Broadcast</p>
         <h1 className="title">GPX Race Tracker</h1>
         <p className="subtitle">Retransmission directe · Kilomètres en temps réel</p>
 
+        {/* Nom de session commun */}
         <div className="card">
           <p className="card-label">Nom de session — identique sur les deux appareils</p>
           <input
             className="code-input"
-            style={{fontSize:22,padding:10,marginBottom:0}}
             value={inputCode}
-            onChange={e=>setInputCode(e.target.value.toUpperCase().replace(/\s/g,""))}
+            onChange={e => setInputCode(e.target.value.toUpperCase().replace(/\s/g, ''))}
             placeholder="ex: TOUR2025"
             maxLength={20}
           />
         </div>
 
+        {/* GPX — côté régie uniquement */}
         <div className="card">
           <p className="card-label">Régie uniquement — Fichier GPX de la course</p>
           <label className="upload-btn">
             <span style={{fontSize:24}}>📁</span>
             <div style={{flex:1}}>
-              <p className="upload-name" style={{color:gpxName?"#94a3b8":"#475569"}}>{gpxName||"Charger un fichier .gpx"}</p>
-              {totalKm>0 && <p className="upload-meta">{totalKm.toFixed(2)} km · {gpxTrack?.length?.toLocaleString()} points</p>}
+              <p className="upload-name" style={{color: gpxName ? '#94a3b8' : '#475569'}}>
+                {gpxName || 'Charger un fichier .gpx'}
+              </p>
+              {totalKm > 0 && (
+                <p className="upload-meta">{totalKm.toFixed(2)} km · {gpxTrack?.length?.toLocaleString()} points</p>
+              )}
             </div>
-            <input type="file" accept=".gpx" style={{display:"none"}} onChange={handleGPX}/>
+            <input type="file" accept=".gpx" style={{display:'none'}} onChange={handleGPX}/>
           </label>
           {gpxTrack && <div style={{marginTop:12}}><TrackMap track={gpxTrack} compact/></div>}
         </div>
 
-        <p className="card-label" style={{color:"#334155",marginBottom:10}}>Choisissez votre rôle</p>
+        {/* vMix JSON relay info */}
+        <div className="card">
+          <p className="card-label">vMix — Data Source JSON</p>
+          <p style={{fontSize:12,color:'#475569',marginBottom:10,lineHeight:1.5}}>
+            Lance <code style={{color:'#06b6d4',background:'#060b14',padding:'1px 5px',borderRadius:4}}>node relay.js</code> sur la machine régie, puis dans vMix ajoute une Data Source de type <strong>Web URL</strong> :
+          </p>
+          <p style={{fontFamily:"'JetBrains Mono',monospace",fontSize:13,color:'#06b6d4',background:'#060b14',padding:'8px 12px',borderRadius:8,letterSpacing:'0.05em'}}>
+            http://localhost:8765/
+          </p>
+          <p style={{fontSize:11,color:'#334155',marginTop:10,lineHeight:1.6}}>
+            Champs disponibles : <span style={{color:'#f59e0b'}}>km_restants</span> · done_km · total_km · pct
+          </p>
+        </div>
+
+        <p className="card-label" style={{color:'#334155',marginBottom:10}}>Choisissez votre rôle</p>
         <div className="modes">
-          <button className="mode-btn primary" onClick={startRegie} disabled={!gpxTrack||!inputCode.trim()}>
+          <button className="mode-btn primary" onClick={startRegie} disabled={!gpxTrack || !inputCode.trim()}>
             <span className="mode-icon">📺</span>
             <span className="mode-title">Régie</span>
             <span className="mode-desc">Charge le GPX · Affiche les km</span>
           </button>
-          <button className="mode-btn" onClick={() => startMoto()} disabled={!inputCode.trim()}>
+          <button className="mode-btn" onClick={startMoto} disabled={!inputCode.trim()}>
             <span className="mode-icon">🏍️</span>
             <span className="mode-title">Moto</span>
-            <span className="mode-desc">GPS automatique · Rien à charger</span>
+            <span className="mode-desc">GPS auto · Reconnexion auto</span>
           </button>
         </div>
 
         {status && <p className="status-msg">{status}</p>}
-        <p style={{fontSize:11,color:"#1e2d45",marginTop:20,letterSpacing:"0.1em"}}>
-          vMix data source : ouvrir <strong style={{color:"#334155"}}>index.html?vmix</strong> dans un onglet régie
-        </p>
       </div>
     );
 
     // ════════════════════════════════════════════════════════════════════════
     // RÉGIE LIVE
     // ════════════════════════════════════════════════════════════════════════
-    if (screen === "regie") return (
+    if (screen === 'regie') return (
       <div className="display">
         <div className="topbar">
           <button className="back-btn" onClick={goBack}>← Retour</button>
           <div className="conn-badge">
-            <div className={`dot ${connected?"green":"gray"}`}/>
-            <span>{connected ? "Moto connectée" : status||"En attente…"}</span>
+            <div className={`dot ${connected ? 'green' : 'gray'}`}/>
+            <span>{connected ? 'Moto connectée' : status || 'En attente…'}</span>
           </div>
         </div>
 
         {!connected && (
           <div className="code-display" style={{marginBottom:16}}>
-            <p className="code-label">Code à donner à la moto</p>
+            <p className="code-label">Code de session</p>
             <p className="code-value">{sessionCode}</p>
-            <p className="code-hint">{peerReady ? "En attente de connexion…" : "Initialisation…"}</p>
+            <p className="code-hint">{peerReady ? 'En attente de la moto…' : 'Initialisation…'}</p>
           </div>
         )}
 
@@ -554,25 +589,32 @@
               <p className="km-unit">km restants</p>
             </>
           ) : (
-            <p className="km-waiting">{connected?"Acquisition GPS…":"En attente de la moto…"}</p>
+            <p className="km-waiting">{connected ? 'Acquisition GPS…' : 'En attente de la moto…'}</p>
           )}
 
           {totalKm > 0 && (
             <div className="progress-wrap" style={{marginTop:24}}>
               <div className="progress-meta">
                 <span>Départ</span>
-                <span>{doneKm.toFixed(2)} / {totalKm.toFixed(2)} km</span>
+                <span>{doneKm.toFixed(1)} / {totalKm.toFixed(1)} km</span>
                 <span>Arrivée</span>
               </div>
               <div className="progress-bar">
-                <div className="progress-fill" style={{width:`${Math.min(100,progress)}%`}}/>
+                <div className="progress-fill" style={{width:`${Math.min(100, progress)}%`}}/>
               </div>
-              <p className="progress-pct">{progress.toFixed(1)}% parcouru</p>
+              <p className="progress-pct">{progress.toFixed(1)} % parcouru</p>
             </div>
           )}
 
-          <div style={{marginTop:16}}><TrackMap track={gpxTrack} currentPos={currentPos}/></div>
-          {accuracy!=null && <p className="gps-acc-display" style={{marginTop:8}}>GPS ±{accuracy.toFixed(0)} m</p>}
+          <div style={{marginTop:16}}>
+            <TrackMap track={gpxTrack} currentPos={currentPos} progressIdx={progressIdx}/>
+          </div>
+          {accuracy != null && (
+            <p className="gps-acc-display" style={{marginTop:8}}>GPS ±{accuracy.toFixed(0)} m</p>
+          )}
+          <p style={{fontSize:11,color:'#0e4d63',fontFamily:"'JetBrains Mono',monospace",marginTop:4,letterSpacing:'0.08em'}}>
+            Data Source → localhost:8765
+          </p>
         </div>
       </div>
     );
@@ -580,37 +622,42 @@
     // ════════════════════════════════════════════════════════════════════════
     // MOTO
     // ════════════════════════════════════════════════════════════════════════
-    if (screen === "moto") return (
+    if (screen === 'moto') return (
       <div className="screen">
         <button className="back-btn" onClick={goBack}>← Retour</button>
 
-        <div style={{textAlign:"center"}}>
-          <p style={{fontSize:11,color:"#334155",letterSpacing:"0.2em",textTransform:"uppercase"}}>Mode Moto Caméra</p>
-          <p style={{fontSize:18,fontWeight:700,color:"#94a3b8",marginTop:2}}>
-            {gpxReceived ? gpxName : "Connexion en cours…"}
+        <div style={{textAlign:'center'}}>
+          <p style={{fontSize:11,color:'#334155',letterSpacing:'0.2em',textTransform:'uppercase'}}>Mode Moto Caméra</p>
+          <p style={{fontSize:18,fontWeight:700,color:'#94a3b8',marginTop:2}}>
+            {gpxName || 'En attente du tracé…'}
           </p>
         </div>
 
         <div className="status-pill">
-          <div className={`dot ${connected && gpxReceived?"green":connected?"yellow":"gray"}`}/>
-          <span style={{color:connected&&gpxReceived?"#22c55e":connected?"#f59e0b":"#475569"}}>
-            {status||(connected?"Connectée…":"Connexion…")}
+          <div className={`dot ${connected && gpxTrack ? 'green' : connected ? 'yellow' : 'gray'}`}/>
+          <span style={{color: connected && gpxTrack ? '#22c55e' : connected ? '#f59e0b' : '#475569'}}>
+            {status || (connected ? 'Connectée…' : 'Connexion…')}
           </span>
         </div>
 
-        {gpxReceived && currentPos && (
+        {gpxTrack && currentPos && (
           <div className="gps-card">
             <p className="gps-label">Signal GPS</p>
             <p className="gps-coords">{currentPos.lat.toFixed(5)}, {currentPos.lon.toFixed(5)}</p>
-            {accuracy!=null && <p className="gps-acc">Précision : ±{accuracy.toFixed(0)} m</p>}
-            {remainingKm!=null && <p className="km-local">{remainingKm.toFixed(1)} km restants</p>}
+            {accuracy != null && <p className="gps-acc">Précision : ±{accuracy.toFixed(0)} m</p>}
+            {remainingKm != null && (
+              <p className="km-local">{remainingKm.toFixed(1)} km restants</p>
+            )}
           </div>
         )}
 
-        {gpxReceived && <TrackMap track={gpxTrack} currentPos={currentPos} compact/>}
+        {/* Affiche la carte même si la régie est déconnectée */}
+        {gpxTrack && (
+          <TrackMap track={gpxTrack} currentPos={currentPos} progressIdx={progressIdx} compact/>
+        )}
 
-        {gpxReceived && (
-          <p style={{fontSize:11,color:"#1e2d45",letterSpacing:"0.1em"}}>
+        {gpxTrack && (
+          <p style={{fontSize:11,color:'#1e2d45',letterSpacing:'0.1em'}}>
             Mise à jour tous les 100 m · {totalKm.toFixed(1)} km au total
           </p>
         )}
@@ -618,11 +665,7 @@
     );
   }
 
-  // ── Point d'entrée ────────────────────────────────────────────────────────
-  const isVmix = new URLSearchParams(window.location.search).has('vmix');
-  ReactDOM.createRoot(document.getElementById("root")).render(
-    isVmix ? <VmixDisplay/> : <App/>
-  );
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
